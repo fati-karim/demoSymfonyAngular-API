@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Matrix Admin</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="{{ asset('ressources/css/bootstrap.min.css')}}" />
+        <link rel="stylesheet" href="{{ asset('ressources/css/bootstrap-responsive.min.css')}}" />
+        <link rel="stylesheet" href="{{ asset('ressources/css/uniform.css')}}" />
+        <link rel="stylesheet" href="{{ asset('ressources/css/select2.css')}}" />
+        <link rel="stylesheet" href="{{ asset('ressources/css/matrix-style.css')}}" />
+        <link rel="stylesheet" href="{{ asset('ressources/css/matrix-media.css')}}" />
+        <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+    </head>
+    <body>
+
+        <!--Header-part-->
+        <div id="header">
+          <h1><a href="dashboard.html">Angular</a></h1>
+        </div>
+        <!--close-Header-part--> 
+
+        <!--sidebar-menu-->
+
+        <div id="sidebar"> <a href="#" class="visible-phone"><i class="icon icon-th"></i>Tables</a>
+          <ul>
+            <li><a href="index.html"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
+            <li><a href="charts.html"><i class="icon icon-signal"></i> <span>Charts &amp; graphs</span></a> </li>
+            <li><a href="widgets.html"><i class="icon icon-inbox"></i> <span>Widgets</span></a> </li>
+            <li class="active"><a href="tables.html"><i class="icon icon-th"></i> <span>Tables</span></a></li>
+            <li><a href="grid.html"><i class="icon icon-fullscreen"></i> <span>Full width</span></a></li>
+            <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Forms</span> <span class="label label-important">3</span></a>
+              <ul>
+                <li><a href="form-common.html">Basic Form</a></li>
+                <li><a href="form-validation.html">Form with Validation</a></li>
+                <li><a href="form-wizard.html">Form with Wizard</a></li>
+              </ul>
+            </li>
+            <li><a href="buttons.html"><i class="icon icon-tint"></i> <span>Buttons &amp; icons</span></a></li>
+            <li><a href="interface.html"><i class="icon icon-pencil"></i> <span>Eelements</span></a></li>
+            <li class="submenu"> <a href="#"><i class="icon icon-file"></i> <span>Addons</span> <span class="label label-important">5</span></a>
+              <ul>
+                <li><a href="index2.html">Dashboard2</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="chat.html">Chat option</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div id="content">
+          <div id="content-header">
+            <div id="breadcrumb"> <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">Tables</a> </div>
+            <h1>Tables</h1>
+          </div>
+          <div class="container-fluid">
+            <hr>
+            <div class="span6">
+            {% for flash_message in app.session.flashbag.get('notice') %}
+            <div class="alert alert-info alert-block"> <a class="close" data-dismiss="alert" href="#">×</a>{{flash_message}}
+            </div>
+            {% endfor %}
+
+            <div class="row-fluid">
+              {% block table %}{% endblock %}
+              {% block form %}{% endblock %}
+            </div>
+
+            </div>
+          </div>
+        </div>
+        <!--Footer-part-->
+        <div class="row-fluid">
+          <div id="footer" class="span12"> 2017 @fkarimoullah </div>
+        </div>
+        <!--end-Footer-part-->
+        <script src="{{ asset('ressources/js/jquery.min.js')}}"></script> 
+        <script src="{{ asset('ressources/js/jquery.ui.custom.js')}}"></script> 
+        <script src="{{ asset('ressources/js/bootstrap.min.js')}}"></script> 
+        <script src="{{ asset('ressources/js/jquery.uniform.js')}}"></script> 
+        <script src="{{ asset('ressources/js/select2.min.js')}}"></script> 
+        <script src="{{ asset('ressources/js/jquery.dataTables.min.js')}}"></script> 
+        <script src="{{ asset('ressources/js/matrix.js')}}"></script> 
+        <script src="{{ asset('ressources/js/matrix.tables.js')}}"></script>
+    </body>
+</html>

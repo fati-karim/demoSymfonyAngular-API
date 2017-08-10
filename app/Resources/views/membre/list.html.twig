@@ -1,0 +1,38 @@
+{% extends '::base.html.twig' %}
+
+
+{% block table %}
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+            <h5>Data table</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <table class="table table-bordered data-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Profile</th>
+                  <th>Age</th>
+                  <th>Stars</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+              	{%for membre in membres %}
+                <tr class="gradeX">
+                  <td>{{ membre.name }}</td>
+                  <td>{{ membre.profil }}</td>
+                  <td>{{ membre.age }}</td>
+                  <td>{{ membre.stars }}</td>
+                  <td class="center">
+                  	<a class="btn btn-mini" title="detail" href="/app_dev.php/membres/{{membre.id}}/detail"><i class="icon-list-alt"></i></a>
+                  	<a class="btn btn-primary btn-mini" title="modifier" href="/app_dev.php/membres/{{membre.id}}/update"><i class="icon-edit"></i></a>
+                  	<a class="btn btn-danger btn-mini" title="supprimer" href="/app_dev.php/membres/{{membre.id}}/delete"><i class="icon-trash"></i></a>
+                  </td>
+                </tr>
+                {% endfor%}
+              </tbody>
+            </table>
+          </div>
+        </div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends '::base.html.twig' %}
+
+
+
+
+{% block form %}
+      <div class="widget-box">
+        <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+          <h5>Personal-info</h5>
+        </div>
+        <div class="widget-content nopadding">
+        {{ form_start(form, {'attr': {'class': 'form-horizontal'} }) }}
+            <div class="control-group">
+              <label class="control-label">Name :</label>
+              <div class="controls">
+                {{form_widget(form.name)}}
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Profile :</label>
+              <div class="controls">
+                {{form_widget(form.profil)}}
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Age</label>
+              <div class="controls">
+                {{form_widget(form.age)}}
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Stars :</label>
+              <div class="controls">
+                {{form_widget(form.stars)}}
+              </div>
+            </div>
+            <div class="form-actions">
+              {{form_widget(form.save)}}
+            </div>
+          {{ form_widget(form._token) }}
+          {{ form_rest(form) }}
+          {{form_end(form)}}
+        </div>
+      </div>
+{% endblock %}

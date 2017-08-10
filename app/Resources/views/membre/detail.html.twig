@@ -1,0 +1,45 @@
+{% extends '::base.html.twig' %}
+
+
+
+
+
+{% block form %}
+      <div class="widget-box">
+        <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+          <h5>Personal-info</h5>
+        </div>
+        <div class="widget-content nopadding">
+          <form action="#" method="get" class="form-horizontal">
+            {% if membre is not null%}
+            <div class="control-group">
+              <label class="control-label">Name :</label>
+              <div class="controls">
+                {{membre.name}}
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Profile :</label>
+              <div class="controls">
+                {{membre.profil}}
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Age : </label>
+              <div class="controls">
+                {{membre.age}}
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Stars :</label>
+              <div class="controls">
+                {{membre.stars}}
+              </div>
+            </div>
+            {% else %}
+              <div class="controls">aucun membre trouvé !!</div>
+            {% endif %}
+            </form>
+        </div>
+      </div>
+{% endblock %}
