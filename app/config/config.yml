@@ -77,7 +77,7 @@ nelmio_cors:
         allow_headers: ["content-type", "authorization"]
         max_age:       3600
     paths:
-        '^/': ~
+        '^/api/': ~
 
 # Nelmio API Doc
 nelmio_api_doc:
@@ -113,6 +113,7 @@ fos_rest:
         include_format:  false
     format_listener:
         rules:
-            - { path: ^/, priorities: [ json, jsonp ], fallback_format: ~, prefer_extension: true }
+            - { path: ^/api/, priorities: [ json, jsonp ], fallback_format: ~, prefer_extension: true }
+            - { path: ^/, priorities: [ 'text/html', '*/*'], fallback_format: html, prefer_extension: true }
     exception:
         enabled: true
