@@ -1,0 +1,39 @@
+#creer un projet symfony 
+   $symfony new youtubeAngularSymfony
+
+#Change your current directory to /var/www/html/youtubeAngularSymfony
+
+#Configure your application in app/config/parameters.yml file.
+
+#Run your application:
+   1. Execute the php bin/console server:start command.
+   2. Browse to the http://localhost:8000 URL.
+
+#config permission 
+    sudo mkdir -p /usr/local/bin
+    sudo curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony
+    sudo chmod a+x /usr/local/bin/symfony
+
+#permission d'ecriture dans le dossier et ses sous elements.
+    chmod -R 777 tondossier
+
+#clean du cache
+    $php bin/console cache:clear --no-warmup
+
+#create a bundle 
+    $php bin/console generate:bundle
+    * complete the creation of the bundle by updating composer.json add your bundle
+	"autoload": {
+	    "psr-4": {
+		"Acme\\Bundle\\BlogBundle\\": "src/Acme/Bundle/BlogBundle",
+		here!!!
+	    },
+    * update composer /  composer dump-autoload
+    $composer update
+    /!\ if (Attempted to load class "" from namespace "". Did you forget a "use" statement for another 		namespace? in AppKernel.php (line N)) then :
+    $ sudo rm -rf vendor/
+    $ composer install
+
+#create an entity
+    $php bin/console generate:doctrine:entity
+

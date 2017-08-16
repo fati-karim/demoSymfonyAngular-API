@@ -1,0 +1,27 @@
+Configuring Virtual Host for Symfony Application 
+
+#cd /etc/apache2/sites-available
+#sudo gedit example.ma.conf (obligatoir l'extension .conf)
+#ajouter la configuration suivante :
+	<VirtualHost *:80>
+	    ServerName example.ma
+	    ServerAlias www.example.ma
+	    DocumentRoot /var/www/html/${projet_name}/web
+	    <Directory /var/www/html/${projet_name}/web>
+		AllowOverride All
+		Order Allow,Deny
+		Allow from All
+	    </Directory>
+	    ErrorLog /var/log/apache2/project_error.log
+	    CustomLog /var/log/apache2/project_access.log combined
+	</VirtualHost>
+#metter a jour le fichier hosts 
+	$ sudo nano /etc/hosts 
+	#ajouter la ligne 
+	$ 127.0.1.1	angular-symfony.dev
+#activer l'url 
+$sudo a2ensite example.ma.conf
+#rafrechir apache2
+$sudo service apache2 reload
+ 
+need help !! : https://www.youtube.com/watch?v=iyKJfzAxpDQ

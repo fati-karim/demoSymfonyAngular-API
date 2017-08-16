@@ -1,0 +1,129 @@
+
+=====================================
+#L'integration continu avec GitLab-CI
+=====================================
+
+	Configuration du fichier gitlab-ci.yml :
+	----------------------------------------
+
+	en configurant le fichier .gitlab-ci.yml, on peux spécifier l'ensemble des commandes a éxécuter pour assurer l'integration continue.
+	le contenue du fichier .gitlab-ci.yml :
+
+		## Definir les variables necessaires pour le build
+		## Pour plus d'infos : http://doc.gitlab.com/ce/ci/variables/README.html
+
+			variables:
+			 	VARIABLE_1: "valeur1"
+				VARIABLE_2: "valeur2"...
+
+		## Definir des commandes a executer avant chaque script d'un job
+
+			before_script:
+				- instruction 1
+				- instruction 2 ...
+
+		## Stages sont utilisés pour definir une etape contenant plusieurs jobs
+		## Pour plus d'infos : https://docs.gitlab.com/ee/ci/yaml/README.html#stages
+		## par defaut le stage next ne s'execute si seulement tous les stages precedents sont executé 	 avec succes
+
+			stages:
+			 	- stage1
+				- stage2 ...
+
+		## un composant executant un script des commandes coherants pour verifier le succes d'un build 	  specifique.
+		## Pour plus d'infos : https://docs.gitlab.com/ee/ci/yaml/README.html#jobs
+		## Exemple d'un job :
+
+			stage: stage1
+			    image: hub-docker.norsys.fr/forge-docker/composer:1.2.0
+			    services:
+			        - hub-docker.norsys.fr/forge-docker/mysql:5.6.31
+			    environment:
+			        name: prod
+			        url: http://app_e152221a-3f4c-4336-b8ac-b22c7c0380df.cleverapps.io
+			    script:
+			 		#Fix ssh keys to clone repositories from Gitlab. TODO : docker-ubuntu entrypoint isn't apply !?
+			        - cp -rf /data/home-files/. $HOME/
+			        - cd build/php
+			        - composer install --prefer-dist
+			        - git config --global user.email "ci-franprix-mandarine@norsys.fr"
+			        - git config --global user.name "CI Franprix Mandarine"
+			        - git clone ssh://git@git.norsys.fr:10022/franprix/config-deploy.git config-deploy
+			        - cp -f config-deploy/prod/ssh/id_rsa_cc ~/.ssh
+			        - cp -f config-deploy/prod/ssh/id_rsa_cc.pub ~/.ssh
+			        - chmod 600 ~/.ssh/id_rsa_cc
+			        - chmod 600 ~/.ssh/id_rsa_cc.pub
+			        - eval "$(ssh-agent -s)"
+			        - ssh-add ~/.ssh/id_rsa_cc
+			        - git clone git+ssh://git@push-par-clevoud-cuss.ices.clever-cloud.com/80df.git dist
+			        - cd dist/
+			        - git rm -r * > /dev/null
+			        - cp -f ../prod.tar prod.tar
+			        - tar xf prod.tar
+			        - rm -f prod.tar
+			 		# To force redeploy with restart build in Gitlab
+			        - echo $(date +%Y-%m-%d_%Hh-%Mm-%Ss) > deploy-date
+			        - git add .
+			        - git status
+			        - git commit -m $CI_BUILD_REF_NAME_$(date +%Y-%m-%d_%Hh-%Mm-%Ss)
+			        - git push origin master
+			    cache:
+			        paths:
+			            - build/node/node_modules/
+			    tags:
+			        - docker
+			    dependencies:
+			        - package-prod
+			    cache:
+			        paths:
+			            - build/php/vendor/
+			    artifacts:
+			        expire_in: 1 hr
+			        paths:
+			            - path/
+			    only:
+			        - master
+			    except:
+			        - triggers
+			    when: manual
+
+
+	Comparaison entre Jenkins et Gitlab-ci :
+	----------------------------------------
+
+	Jenkins is easier to use/learn but has the risk to become a plugin hell
+    Jenkins has a GUI (this can be preferred if it has to be accesible/maintainable by other people)
+    Integration with GitLab is less than with Gitlab-ci
+    Jenkins can be split off your repo
+
+	Most CI servers are pretty straight forward (concourse.ci, gitlab-ci, circle-ci, travis-ci, and what else have you). They allow you to execute shell/bat from a yaml file definition. Jenkins is much more pluggable, and comes with a UI. This can be either an advantage or disadvantage, depending on your needs.
+
+	Jenkins is very configurable because of all the plugins that are available. The downside of this is that your ci server can become a spaghetti of plugins.
+
+	In my opinion chaining and orchestrating of jobs in Jenkins is much simpler (because of the UI) than via Yaml (calling curl commands). Besides that Jenkins supports plugins that will install certain binaries when they are not available on your server (don't know about that for the others).
+
+	Nowadays (jenkins2 also supports more "proper ci" with the Jenkinsfile and the pipline plugin which comes default as from Jenkins 2), but used to be less coupled to the repository than i.e. gitlab ci.
+
+	Using yaml files to define your build pipeline (and in the end running pure shell/bat) is cleaner.
+
+	EDIT: what I forgot to mention here is the plug-ins available for jenkins that allow you to visualize all kinds of reporting, such as test results, coverage and other static analyzers. Ofcourse you can always write or use a tool to do this for you, but it is definitely a plus for Jenkins (especially for managers who tend to value these reports too much)
+
+
+
+
+	Comparaison entre les autres manager-CI [CircleCI, Travis-CI, Jenkins] :
+	----------------------------------------
+
+	CircleCI is recommended for small projects, where the main goal is to start the integration as fast as possible.
+
+	Travis CI is recommended for cases when you are working on the open-source projects, that should be tested in different environments.
+
+	Jenkins is recommended for the big projects, where you need a lot of customizations that can be done by usage of various plugins. You may change almost everything here, still this process may take a while. If you are planning the quickest start with the CI system Jenkins might not be your choice.
+
+
+
+
+
+
+
+    

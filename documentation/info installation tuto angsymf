@@ -1,0 +1,9 @@
+#probleme at installing apache2
+
+#probleme at installing php7
+	Update for php7.0, tested on Ubuntu 16.04 and 16.10
+	Install: sudo apt-get install apache2 php7.0 libapache2-mod-php7.0 
+	Verify:  a2query -m php7.0
+	Load:    sudo a2enmod php7.0
+	Restart apache: sudo service apache2 restart
+
