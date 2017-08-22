@@ -45,27 +45,52 @@ class MembreApiController extends Controller
     }
 
     /**
-     * @Route("/api/membres/ajouter", name="create_membre-api")
+     * @Route("/api/membres/add", name="create_membre-api")
      * @Method("POST")
      */
     public function createAction(Request $request)
     {
-
-        $this->get('logger')->log(Logger::EMERGENCY,' OOOOOOOOO detailed debug output');
-
-        $membreApi = json_decode($request->request->get('data'));
-       
-
-        $membre->setName($membreApi->name);
-        $membre->setProfil($membreApi->profil);
-        $membre->setAge($membreApi->age);
-        $membre->setStars($membreApi->stars);
+      
         
+        $parametersAsArray = [];
+        $parametersAsArray = $request->request->get('membre');
+        
+        $membre = new Membre;
+        $membre->setName($parametersAsArray['name']);
+        $membre->setProfil($parametersAsArray['profil']);
+        $membre->setAge($parametersAsArray['age']);
+        $membre->setStars($parametersAsArray['stars']);
+
         $em = $this->getDoctrine()->getManager();
         $em->persist($membre);
         $em->flush();
 
-        return indexAction($request);
+        return new JsonResponse($membre);
+
+    }
+
+    /**
+     * @Route("/api/membres/update", name="update_membre-api")
+     * @Method("POST")
+     */
+    public function updateAction(Request $request)
+    {
+              
+        $parametersAsArray = [];
+        $parametersAsArray = $request->request->get('membre');
+        
+        $membre = new Membre;
+        $membre->setName($parametersAsArray['id']);
+        $membre->setName($parametersAsArray['name']);
+        $membre->setProfil($parametersAsArray['profil']);
+        $membre->setAge($parametersAsArray['age']);
+        $membre->setStars($parametersAsArray['stars']);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($membre);
+        $em->flush();
+
+        return new JsonResponse($membre);
 
     }
 }
