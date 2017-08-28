@@ -37,3 +37,6 @@
 #create an entity
     $php bin/console generate:doctrine:entity
 
+#la generation des assets (css,js) globals apartir des fichiers partiels de css et js 
+    $ php app/console assets:install
+
