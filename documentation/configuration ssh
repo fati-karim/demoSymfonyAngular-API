@@ -1,0 +1,30 @@
+#Configuration d'une clé SSH pour le Git :
+	
+	#pointer sur le dossier .ssh (dans le dossier personnel)
+	cd .ssh
+	
+	#generer la clé ssh (public & privé) : 
+	ssh-keygen -t $kayName -b 4096 -C "tonMail"
+
+	#generer le fichier config dans le dossier .ssh
+	nano config
+		#ajouter ces lignes de conf
+			# GIT Norsys
+			Host git.norsys.fr
+			Hostname git.norsys.fr
+			User $userGit
+			Port 10022
+			IdentityFile ~/.ssh/$nomDuFichierDeLaCleSSH
+
+	#Copier la cle public dans la zone du sitting ssh en gitLab
+	https://git.norsys.fr/profile/keys
+
+	#executer la commande pour se connecté en ssh
+	ssh -T git@git.norsys.fr
+
+	#pointer sur le repo du projet
+	cd ../Path/To/Repo/
+
+	#Modifier le .git/config
+	nano .git/config
+		#Remplacer url "HTTPS" par l'url "SSH" du projet
