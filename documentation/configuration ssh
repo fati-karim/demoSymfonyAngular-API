@@ -1,3 +1,25 @@
+
+#Configuration des alias en Git :
+
+	#email & user
+	git config --global user.name "Nom Prenom"
+	git config --global user.email "pnom@domain.ext"
+
+	#Un peu de couleur
+	git config --global color.ui auto
+
+	#Un ignore pour les contrôler tous
+	git config --global core.excludesfile ~/.gitignore
+
+	#Pour ne pas pusher n'importe quoi par défaut
+	git config --global push.default upstream
+
+	#autres aliases
+	git config --global alias.st status
+	git config --global alias.co checkout
+	git config --global alias.ci commit
+	git config --global alias.br branch
+	git config --global alias.tree "log --graph --oneline --all --pretty=format:'%C(yellow)%h%Creset -%Cred%d%Creset %s %Cgreen%cr%Creset %Cblue%an%Creset %gn'"
 #Configuration d'une clé SSH pour le Git :
 	
 	#pointer sur le dossier .ssh (dans le dossier personnel)
