@@ -1,0 +1,29 @@
+#Git merging 
+
+	* Creating a feature branch
+		$ git checkout -b myfeature develop
+
+	* Incorporating a finished feature on develop
+	Finished features may be merged into the develop branch to definitely add them to the upcoming release:
+
+		$ git checkout develop
+		Switched to branch 'develop'
+		$ git merge --no-ff myfeature
+		Updating ea1b82a..05e9557
+		(Summary of changes)
+		$ git branch -d myfeature
+		Deleted branch myfeature (was 05e9557).
+		$ git push origin develop
+
+
+	* Why {--no-ff}
+
+					$ git merge --no-ff myfeature								$ git merge --no-ff myfeature
+					*****************************								*****************************
+																									
+	*   dee47cb - Merge branch 'myfeature' 23 minutes ago fkarimoullah			|
+	|\											|
+	| * dea47d2 - (myfeature) update map service 25 minutes ago fkarimoullah		|	* dea47d2 - (myfeature) update map service 25 minutes ago fkarimoullah		
+	| * 79d8d4a - update enum 26 minutes ago fkarimoullah					|	* 79d8d4a - update enum 26 minutes ago fkarimoullah
+	|/											|	* b1d5552 - first commit 4 hours ago fkarimoullah	
+	* b1d5552 - first commit 4 hours ago fkarimoullah					|
