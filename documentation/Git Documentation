@@ -1,4 +1,6 @@
+************
 #Git merging 
+************
 
 	* Creating a feature branch
 		$ git checkout -b myfeature develop
@@ -20,10 +22,80 @@
 
 					$ git merge --no-ff myfeature								$ git merge --no-ff myfeature
 					*****************************								*****************************
-																									
+					
 	*   dee47cb - Merge branch 'myfeature' 23 minutes ago fkarimoullah			|
 	|\											|
 	| * dea47d2 - (myfeature) update map service 25 minutes ago fkarimoullah		|	* dea47d2 - (myfeature) update map service 25 minutes ago fkarimoullah		
 	| * 79d8d4a - update enum 26 minutes ago fkarimoullah					|	* 79d8d4a - update enum 26 minutes ago fkarimoullah
 	|/											|	* b1d5552 - first commit 4 hours ago fkarimoullah	
 	* b1d5552 - first commit 4 hours ago fkarimoullah					|
+
+
+	* Fast-Forward ?
+
+	Un Fast-forward, est utilisé quand il existe un chemin simple pour relier notre branche et la branche cible. 
+	En effet, si il n'y a pas eu de commit entre temps la fusion consiste à ajouter les commit de la branche cible à la suite du dernier commit de la branche courante. 
+	Voici un petit schéma issu de atlassian.com pour mieux comprendre de quoi il s'agit.
+																	
+		  * dea47d2 - (myfeature) update map service 25 minutes ago fkarimoullah				
+		  * 79d8d4a - update enum 26 minutes ago fkarimoullah							
+		 /																			
+		* b1d5552 - first commit 4 hours ago fkarimoullah
+
+			=> apres un merge sans "--no-ff" on aura le resultat:
+
+				* dea47d2 - (myfeature) update map service 25 minutes ago fkarimoullah				
+				* 79d8d4a - update enum 26 minutes ago fkarimoullah																										
+				* b1d5552 - first commit 4 hours ago fkarimoullah
+
+			=> apres un merge avec "--no-ff" on aura le resultat:
+
+				*   dee47cb - Merge branch 'myfeature' 23 minutes ago fkarimoullah				
+				|\																				
+				| * dea47d2 - (myfeature) update map service 25 minutes ago fkarimoullah				
+				| * 79d8d4a - update enum 26 minutes ago fkarimoullah								
+				|/																				
+				* b1d5552 - first commit 4 hours ago fkarimoullah
+
+			=> En revanche un fast-forward n'est pas possible si les 2 branches évoluées en même temps. 
+			Git n'a alors pas d'autre choix que d'effectuer un 3-way merge en effectuant un commit pour rattacher les 2 branches.
+
+				*   dee47cb - Merge branch 'myfeature' 23 minutes ago fkarimoullah				
+				|\																				
+				| * dea47d2 - (myfeature) update map service 25 minutes ago fkarimoullah			
+				| * 79d8d4a - update enum 26 minutes ago fkarimoullah							
+				|/																				
+				* b1d5552 - first commit 4 hours ago fkarimoullah
+
+	* Rebase for merging
+		Le rebase va nous être utile pour forcer un fast-forward lors d'une fusion de branche.
+		Le problème ici, c'est qu'un merge entrainera un 3-way merge qui va générer un nouveau commit de fusion et qui rendra l'historique plus complexe à lire. 
+		Le rebase va alors nous permettre de se placer dans un cas propice à un fast-forward.
+
+			$ git checkout feature # On va sur la branche feature
+			$ git rebase master  # Notre branche commencera au bout de master
+			$ git checkout master # On retourne sur master
+			$ git merge feature # On fusionne feature et master
+
+		Schemas:
+					|			|
+			 |   |		|	  (2*)		|	  (2*)		
+			 |   |		|	  (1*)		|	  (1*)		
+			(1) (4) 	|	  (4) 		|	  (4) 					
+			(2) (3) 	|	  (3) 		|	  (3) 		
+			|  /		|	  /		|	  (0)			
+			(0) 		|	(0) 		|	   |		
+
+
+*******************
+#Git commit --amend
+*******************
+	L'argument --amend permet de rajouter les fichiers en staging ou modifier le commentaire du commit dans le commit précédent. 
+	Ceci permet de corriger un oubli et d'éviter de faire 10 commits pour la même chose. 
+	Il est important de ne jamais amend un commit déjà publié au risque de rendre compromettre l'historique de tout le monde. 
+	A n'utiliser que pour des petits oublis en local.
+
+******************
+Git tools
+******************
+GitKraken
